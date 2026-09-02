@@ -1,0 +1,72 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+    string customerName;
+    int quantity;
+    double unitPrice;
+    int score1, score2;
+
+    cout << "Enter customer's full name: ";
+    getline(cin, customerName);
+
+    cout << "Enter item quantity: ";
+    cin >> quantity;
+
+    cout << "Enter item unit price: ";
+    cin >> unitPrice;
+
+    cout << "Enter exam score 1: ";
+    cin >> score1;
+
+    cout << "Enter exam score 2: ";
+    cin >> score2;
+
+    double subtotal = quantity * unitPrice;
+    double tax = subtotal * 0.075;
+    double total = subtotal + tax;
+
+    double average = (static_cast<double>(score1) + score2) / 2;
+
+    cout << fixed << setprecision(2);
+
+    cout << "\n========================================\n";
+    cout << "         CUSTOMER SALES RECEIPT\n";
+    cout << "========================================\n";
+    cout << "Customer: " << customerName << endl;
+    cout << "--------------------------------------------------------\n";
+
+    cout << left << setw(30) << "Item"
+         << setw(10) << "Qty"
+         << setw(15) << "Price"
+         << setw(15) << "Total" << endl;
+
+    cout << left << setw(30) << "Coffee"
+         << setw(10) << quantity
+         << setw(15) << unitPrice
+         << setw(15) << subtotal << endl;
+
+    cout << "--------------------------------------------------------\n";
+
+    cout << left << setw(25) << "Subtotal:"
+         << "$" << subtotal << endl;
+
+    cout << left << setw(25) << "Tax (7.5%):"
+         << "$" << tax << endl;
+
+    cout << left << setw(25) << "Total Amount Due:"
+         << "$" << total << endl;
+
+    cout << "--------------------------------------------------------\n";
+
+    cout << left << setw(25) << "Student Exam Average:"
+         << average << "%" << endl;
+
+    cout << "========================================\n";
+
+    return 0;
+}
