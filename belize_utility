@@ -1,0 +1,125 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+int main() {
+
+    // Rates
+    double BASE_FEE = 18.50;
+    double TIER1 = 0.08;
+    double TIER2 = 0.12;
+    double TIER3 = 0.16;
+    double TAX = 0.055;
+
+    string accountNumber,customerName;
+    double previousReading,currentReading;
+
+    cout<< "======================================================"<< endl;
+    cout<< "             Orange Walk BEL Agency" << endl;
+    cout<< "           MONTHLY BILLING CALCULATOR" << endl;
+    cout<< "======================================================"<< endl;
+
+    cout<<"\nEnter Customer Account Number : ";
+    cin>>accountNumber;
+
+    cin.ignore();
+
+    cout<< "Enter Customer Full Name : ";
+    getline(cin, customerName);
+
+    // Get previous reading
+    cout<<"Enter Previous Reading (kWh) : ";
+    cin>>previousReading;
+
+    while(previousReading < 0){
+        cout<< "Invalid reading. Enter 0 or more : ";
+        cin>> previousReading;
+    }
+    // Get current reading
+    cout<<"Enter Current Reading (kWh) : ";
+    cin>>currentReading;
+
+    while(currentReading < previousReading) {
+        cout<<"Invalid reading. It cannot be less than the previous reading : ";
+        cin>>currentReading;
+    }
+    // Find total usage
+    double usage = currentReading - previousReading;
+    // Find the amount used in each tier
+    double tier1Units = 0;
+    double tier2Units = 0;
+    double tier3Units = 0;
+
+    if(usage <= 500){
+        tier1Units = usage;
+    }
+    else if(usage <= 1000){
+        tier1Units = 500;
+        tier2Units = usage - 500;
+    }
+    else{
+        tier1Units = 500;
+        tier2Units = 500;
+        tier3Units = usage - 1000;
+    }
+
+    // Calculate the charges
+    double tier1Charge = tier1Units * TIER1;
+    double tier2Charge = tier2Units * TIER2;
+    double tier3Charge = tier3Units * TIER3;
+
+    double subtotal = tier1Charge + tier2Charge + tier3Charge;
+    double tax = subtotal * TAX;
+    double total = BASE_FEE + subtotal + tax;
+
+    cout<< "\nComputing charges... Done." << endl;
+
+    cout<< fixed << setprecision(2);
+
+    // Print the bill
+    cout<<"\n======================================================"<< endl;
+    cout<< "               ITEMIZED UTILITY INVOICE" << endl;
+    cout<< "======================================================"<< endl;
+
+    cout<< "Account Number       : "<< accountNumber<< endl;
+    cout<< "Customer Name        : "<< customerName<< endl;
+    cout<< "Total Consumption    : "<< usage<< " kWh"<< endl;
+
+    cout<< "------------------------------------------------------"<< endl;
+    cout<< left << setw(38) << "Line Item Breakdown"
+         << right << "Amount ($)" << endl;
+    cout<< "------------------------------------------------------"<< endl;
+
+    cout<< left << setw(38) << "Base Customer Charge"
+         << "$" << right << setw(10) << BASE_FEE << endl;
+
+    cout<< left << setw(38) << "Tier 1 Usage"
+         << "$" << right << setw(10) << tier1Charge << endl;
+
+    cout<< left << setw(38) << "Tier 2 Usage"
+         << "$" << right << setw(10) << tier2Charge << endl;
+
+    cout<< left << setw(38) << "Tier 3 Usage"
+         << "$" << right << setw(10) << tier3Charge << endl;
+
+    cout<< "------------------------------------------------------" << endl;
+
+    cout<< left << setw(38) << "Total Consumption Subtotal"
+         << "$" << right << setw(10) << subtotal << endl;
+
+    cout<< left << setw(38) << "Municipal Clean Energy Surcharge (5.5%)"
+         << "$" << right << setw(10) << tax << endl;
+
+    cout<< "======================================================" << endl;
+
+    cout<< left << setw(38) << "TOTAL BALANCE DUE"
+         << "$" << right << setw(10) << total << endl;
+
+    cout<< "======================================================" << endl;
+
+    cout<< "Payment Due Date: 21 Days From Statement Generation." << endl;
+    cout<< "Thank you for being a valued customer!" << endl;
+
+    return 0;
+}
