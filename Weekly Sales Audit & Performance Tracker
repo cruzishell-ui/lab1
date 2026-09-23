@@ -1,0 +1,89 @@
+// =======================================================
+// Lab 3: Weekly Sales Audit & Performance Tracker
+// Name: [Ishell Cruz]
+// Date: [Sep/23/2026]
+// =======================================================
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+int main() {
+
+    double totalRevenue = 0.0;
+    int openDaysCount = 0;
+    double maxSales = 0.0;
+    int bestDayNumber = 0;
+    bool auditAborted = false;
+
+    cout << "=================================================="<<endl;
+    cout << "        THE CAMPUS COFFEE CO. - SALES AUDIT       "<<endl;
+    cout << "=================================================="<<endl;
+
+    for (int day = 1; day <= 7; day++) {
+        double currentSales;
+        cout << "Enter gross sales for Day " << day << " ($): ";
+        cin >> currentSales;
+
+        // Stop if a negative number is entered
+        if (currentSales < 0) {
+            cout << "--> [ALERT] Corrupted/negative entry detected ("
+                 << fixed << setprecision(2) << currentSales
+                 << "). Aborting weekly audit immediately!"<<endl;
+
+            auditAborted = true;
+            break;
+        }
+
+        // Skip the day if the store was closed
+        if (currentSales == 0) {
+            cout << "--> [INFO] Store was closed on Day "
+                 << day << ". Skipping daily calculation."<<endl;
+            continue;
+        }
+
+        totalRevenue += currentSales;
+        openDaysCount++;
+
+        // Find the highest sales day
+        if (currentSales > maxSales) {
+            maxSales = currentSales;
+            bestDayNumber = day;
+        }
+
+        cout << endl;
+    }
+
+    double average = 0.0;
+
+    if (openDaysCount > 0) {
+        average = totalRevenue / openDaysCount;
+    }
+
+    cout << "---------------- WEEKLY AUDIT REPORT -------------"<<endl;
+
+    if (auditAborted) {
+        cout << "Days Evaluated        : " << openDaysCount
+             << " active day(s) (Audit aborted early)"<<endl;
+    }
+    else {
+        cout << "Days Evaluated        : " << openDaysCount
+             << " active day(s)"<<endl;
+    }
+
+    cout << fixed << setprecision(2);
+
+    cout << "Total Gross Revenue   : $" << totalRevenue << endl;
+    cout << "Average Daily Sales   : $" << average << endl;
+
+    if (openDaysCount > 0) {
+        cout << "Best Sales Day        : Day " << bestDayNumber
+             << " with $" << maxSales << endl;
+    }
+    else {
+        cout << "Best Sales Day        : No sales recorded"<<endl;
+    }
+
+    cout << "=================================================="<<endl;
+
+    return 0;
+}
