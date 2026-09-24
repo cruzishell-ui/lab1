@@ -1,0 +1,203 @@
+//Belize Travel and Activity Advisor
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cctype>
+using namespace std;
+int main() {
+
+    string name;
+    int destination;
+    int weather;
+    double budget;
+    char activity;
+
+    cout << "=================================================="<<endl;
+    cout << "       BELIZE TRAVEL & ACTIVITY ADVISOR\n";
+    cout << "=================================================="<<endl;
+
+    cout << "\nEnter Lead Traveler Name: ";
+    getline(cin, name);
+
+    cout << "\nSelect Destination:"<<endl;
+    cout << "[1] Coastal / Cayes"<<endl;
+    cout << "[2] Inland / Maya Heartland"<<endl;
+    cout << "[3] Southern Rainforest"<<endl;
+    cout << "Enter choice: ";
+    cin >> destination;
+
+    while (destination < 1 || destination > 3) {
+        cout << "Invalid choice. Enter 1, 2, or 3: ";
+        cin >> destination;
+    }
+
+    cout << "\nSelect Weather:"<<endl;
+    cout << "[1] Clear & Sunny"<<endl;
+    cout << "[2] Rainy / Squall"<<endl;
+    cout << "[3] Severe Weather"<<endl;
+    cout << "Enter choice: ";
+    cin >> weather;
+
+    while (weather < 1 || weather > 3) {
+        cout << "Invalid choice. Enter 1, 2, or 3: ";
+        cin >> weather;
+    }
+
+    cout << "\nEnter Daily Budget ($): ";
+    cin >> budget;
+
+    while (budget < 0) {
+        cout << "Budget cannot be negative. Enter again: ";
+        cin >> budget;
+    }
+
+    cout << "\nChoose Activity:"<<endl;
+    cout << "[A] Adventure"<<endl;
+    cout << "[C] Culture"<<endl;
+    cout << "[R] Relaxation"<<endl;
+    cout << "Enter choice:";
+    cin >> activity;
+
+    activity = toupper(activity);
+
+    while (activity != 'A' && activity != 'C' && activity != 'R') {
+        cout << "Invalid choice. Enter A, C, or R: ";
+        cin >> activity;
+        activity = toupper(activity);
+    }
+
+    // Budget level
+    string budgetType;
+
+    if (budget < 75) {
+        budgetType = "Tier 1 - Backpacker";
+    }
+    else if (budget <= 250) {
+        budgetType = "Tier 2 - Moderate";
+    }
+    else {
+        budgetType = "Tier 3 - Luxury";
+    }
+
+    // Destination
+    string place;
+
+    switch (destination) {
+        case 1:
+            place = "Coastal / Cayes";
+            break;
+        case 2:
+            place = "Inland / Maya Heartland";
+            break;
+        case 3:
+            place = "Southern Rainforest";
+            break;
+    }
+
+    string weatherType,recommendation,gear,advice;
+
+    if (weather == 3) {
+
+        weatherType = "Severe Weather";
+
+        recommendation = "Indoor cultural activity and local sightseeing";
+        gear = "Flashlight, waterproof jacket, and power bank";
+        advice = "Stay indoors and follow NEMO weather updates.";
+
+    }
+    else {
+
+        if (weather == 1) {
+            weatherType = "Clear & Sunny";
+        }
+        else {
+            weatherType = "Rainy / Tropical Squall";
+        }
+
+        if (destination == 1) {
+
+            if (weather == 1 && budget >= 75 && activity == 'A') {
+                recommendation = "Hol Chan Marine Reserve Snorkeling / Scuba Dive";
+                gear = "Reef-safe sunscreen, rash guard, and fins";
+                advice = "Use an authorized local tour guide.";
+            }
+            else if (weather == 1 && budget < 75) {
+                recommendation = "Caye Caulker Split swimming and beach cycling";
+                gear = "Water bottle, sun hat, and sunglasses";
+                advice = "Drink water and use sun protection.";
+            }
+            else {
+                recommendation = "Garifuna drum making and culinary tasting";
+                gear = "Light jacket and waterproof bag";
+                advice = "Keep your phone and other electronics dry.";
+            }
+
+        }
+        else if (destination == 2) {
+
+            if (weather == 1 && activity == 'A') {
+                recommendation = "Actun Tunichil Muknal (ATM) Cave";
+                gear = "Closed shoes, quick-dry clothes, and extra socks";
+                advice = "Use a guide and follow the cave safety rules.";
+            }
+            else if (weather == 1 && activity == 'C') {
+                recommendation = "Xunantunich Mayan Temples";
+                gear = "Mosquito repellent, water, and comfortable shoes";
+                advice = "Bring some money for the ferry.";
+            }
+            else if (weather == 2 && activity == 'A') {
+                recommendation = "Barton Creek Cave Canoe Expedition";
+                gear = "Poncho, dry bag, and headlamp";
+                advice = "Check the weather before going.";
+            }
+            else {
+                recommendation = "Inland cultural and leisure activities";
+                gear = "Water, insect repellent, and comfortable clothes";
+                advice = "Check the weather before outdoor activities.";
+            }
+
+        }
+        else {
+
+            if (budget > 250 && activity == 'R') {
+                recommendation = "Luxury Eco-Lodge birding and cocoa tour";
+                gear = "Binoculars, insect cream, and light clothing";
+                advice = "Book the activities ahead of time.";
+            }
+            else {
+                recommendation = "Rainforest and local cultural activities";
+                gear = "Water, insect repellent, and comfortable shoes";
+                advice = "Consider using a local guide.";
+            }
+        }
+    }
+
+    cout << "\nGenerating travel advice... Done!"<<endl;
+
+    cout << "\n=================================================="<<endl;
+    cout << "             TRAVEL ADVISORY\n";
+    cout << "=================================================="<<endl;
+
+    cout << "Traveler Name : " << name << endl;
+    cout << "Destination   : " << place << endl;
+    cout << "Weather       : " << weatherType << endl;
+    cout << "Budget        : " << budgetType << endl;
+    cout << "Budget Amount : $" << fixed << setprecision(2) << budget << endl;
+
+    cout << "--------------------------------------------------\n";
+
+    cout << "Recommendation:\n";
+    cout << recommendation << endl;
+
+    cout << "\nWhat to Bring:\n";
+    cout << gear << endl;
+
+    cout << "\nTravel Advice:\n";
+    cout << advice << endl;
+
+    cout << "==================================================\n";
+    cout << "Enjoy your trip to Belize!\n";
+
+    return 0;
+}
