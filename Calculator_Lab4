@@ -1,0 +1,154 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+// Function prototypes
+double calculateTax(double grossIncome);
+double calculateTax(double grossIncome, double deductionRate);
+
+double computeInterest(double principal, double annualRate, int years);
+double computeInterest(double principal, double annualRate, int years, int compoundPerYear);
+
+void printReport(double netIncome, double totalInterest);
+void printReport(string userName, double grossIncome, double totalTax,
+                 double netIncome, double principal, double totalInterest);
+
+double getPositiveInput(string promptMessage);
+
+int main() {
+    string name;
+    double income, principal, rate, tax, netIncome, interest;
+    double customRate;
+    int years, choice, frequency;
+    char answer;
+
+    cout << "============================================\n";
+    cout << "   MODULAR PERSONAL FINANCE CALCULATOR\n";
+    cout << "============================================\n";
+
+    cout << "Enter your full name: ";
+    getline(cin, name);
+
+    income = getPositiveInput("Enter gross annual income: $");
+    principal = getPositiveInput("Enter investment amount: $");
+    rate = getPositiveInput("Enter annual interest rate (example 0.05): ");
+    years = static_cast<int>(getPositiveInput("Enter investment years: "));
+
+    cout << "\nDo you have a custom tax rate? (y/n): ";
+    cin >> answer;
+
+    if (answer == 'y' || answer == 'Y') {
+        customRate = getPositiveInput("Enter custom tax rate (example 0.18): ");
+        tax = calculateTax(income, customRate);
+    }
+    else {
+        tax = calculateTax(income);
+    }
+
+    netIncome = income - tax;
+
+    cout << "\nChoose an interest method:\n";
+    cout << "1. Simple Interest\n";
+    cout << "2. Compound Interest\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+
+    while (choice != 1 && choice != 2) {
+        cout << "Please enter 1 or 2: ";
+        cin >> choice;
+    }
+
+    if (choice == 1) {
+        interest = computeInterest(principal, rate, years);
+    }
+    else {
+        frequency = static_cast<int>(
+            getPositiveInput("Enter compound frequency per year: ")
+        );
+
+        interest = computeInterest(principal, rate, years, frequency);
+    }
+
+    cout << fixed << setprecision(2);
+
+    printReport(netIncome, interest);
+
+    printReport(name, income, tax, netIncome, principal, interest);
+
+    return 0;
+}
+
+// Calculates the standard tax
+double calculateTax(double grossIncome) {
+    return grossIncome * 0.15;
+}
+
+// Calculates tax using the custom rate
+double calculateTax(double grossIncome, double deductionRate) {
+    return grossIncome * deductionRate;
+}
+
+// Calculates simple interest
+double computeInterest(double principal, double annualRate, int years) {
+    return principal * annualRate * years;
+}
+
+// Calculates compound interest
+double computeInterest(double principal, double annualRate,
+                       int years, int compoundPerYear) {
+    double amount;
+
+    amount = principal * pow(
+        1 + annualRate / compoundPerYear,
+        compoundPerYear * years
+    );
+
+    return amount - principal;
+}
+
+// Prints the short report
+void printReport(double netIncome, double totalInterest) {
+    cout << "\n--------------------------------------------\n";
+    cout << "         QUICK FINANCIAL SUMMARY\n";
+    cout << "--------------------------------------------\n";
+    cout << "Net Income:        $" << netIncome << endl;
+    cout << "Interest Earned:   $" << totalInterest << endl;
+}
+
+// Prints the full report
+void printReport(string userName, double grossIncome, double totalTax,
+                 double netIncome, double principal, double totalInterest) {
+    cout << "\n============================================\n";
+    cout << "FINANCIAL REPORT FOR: " << userName << endl;
+    cout << "============================================\n";
+
+    cout << "Gross Income:      $" << grossIncome << endl;
+    cout << "Total Tax:         $" << totalTax << endl;
+    cout << "Net Income:        $" << netIncome << endl;
+
+    cout << "--------------------------------------------\n";
+
+    cout << "Investment Amount: $" << principal << endl;
+    cout << "Interest Earned:   $" << totalInterest << endl;
+    cout << "Final Balance:     $" << principal + totalInterest << endl;
+
+    cout << "============================================\n";
+}
+
+// Makes sure the number is greater than zero
+double getPositiveInput(string promptMessage) {
+    double number;
+
+    cout << promptMessage;
+    cin >> number;
+
+    while (number <= 0) {
+        cout << "Invalid number. Please try again: ";
+        cin >> number;
+    }
+
+    return number;
+}
