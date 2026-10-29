@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+class pispirispi {
+public:
+    void setValues(int a, int b) {
+        n1 = a;
+        n2 = b;
+    }
+
+    int getSum() {
+        return n1 + n2;
+    }
+
+    int getSubtract() {
+        return n1 - n2;
+    }
+
+    int getMultiply() {
+        return n1 * n2;
+    }
+
+    double getDivide() {
+        return n1 / n2;
+    }
+
+    void display(int choice) {
+        switch (choice) {
+            case 1:
+                cout<<"Answer: "<<getSum()<<endl;
+                break;
+            case 2:
+                cout<<"Answer: "<<getSubtract()<<endl;
+                break;
+            case 3:
+                cout<<"Answer: "<<getMultiply()<<endl;
+                break;
+            case 4:
+                if (n2 != 0) {
+                    cout << "Answer: " << getDivide() << endl;
+                }
+                else {
+                    cout << "Cannot divide by zero!" << endl;
+                }
+                break;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    }
+
+private:
+    int n1, n2;
+};
+
+void menu() {
+    cout << "======= CALCULATOR ========"<<endl;
+    cout << "1. Addition"<<endl;
+    cout << "2. Subtraction"<<endl;
+    cout << "3. Multiplication"<<endl;
+    cout << "4. Division"<<endl;
+    cout << "==========================="<<endl;
+}
+
+int main() {
+    pispirispi obj;
+
+    int v1, v2;
+    int choice;
+    char again;
+
+    do {
+        menu();
+        cout << "Enter your choice: ";
+        cin >> choice;
+        while (choice < 1|| choice > 4) {
+            cout << "Invalid choice. Enter 1-4: ";
+            cin >> choice;
+        }
+        cout << "Enter first number: ";
+        cin >> v1;
+        cout << "Enter second number: ";
+        cin >> v2;
+        obj.setValues(v1, v2);
+        obj.display(choice);
+        cout << "Do you want to calculate again? (y/n): ";
+        cin >> again;
+    } while (again == 'y' || again == 'Y');
+
+    return 0;
+}
